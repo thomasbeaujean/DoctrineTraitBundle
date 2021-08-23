@@ -1,0 +1,8 @@
+services:
+    A5sys\DoctrineTraitBundle\Command\EntitiesCommand:
+        public: true
+        class: "A5sys\\DoctrineTraitBundle\\Command\\EntitiesCommand"
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: 'console.command', command: 'generate:doctrine:traits' }
