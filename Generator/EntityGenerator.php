@@ -81,7 +81,7 @@ namespace <namespace>;
         $dir = dirname($traitPath);
 
         if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
+            mkdir($dir, 0664, true);
         }
 
         $content = $this->generateEntityClass($metadata);
