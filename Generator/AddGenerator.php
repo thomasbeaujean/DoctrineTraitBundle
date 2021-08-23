@@ -8,6 +8,7 @@ class AddGenerator extends AbstractPropertyGenerator
     '
     public function <methodName>(<type> $value): void
     {
+        $value->set<entityName>($this);
         $this-><fieldName>[] = $value;
     }
 ';
@@ -19,7 +20,7 @@ class AddGenerator extends AbstractPropertyGenerator
         return $this->inflector->singularize($methodName);
     }
 
-    public function generate(string $fieldName, string $type): string
+    public function generate(string $fieldName, string $type, string $entityName): string
     {
         $methodName = $this->getMethodName($fieldName);
 
@@ -27,6 +28,7 @@ class AddGenerator extends AbstractPropertyGenerator
             '<type>' => $this->convertType($type),
             '<methodName>' => $methodName,
             '<fieldName>' => $fieldName,
+            '<entityName>' => ucfirst($entityName)
         ];
 
         $method = str_replace(

@@ -209,7 +209,7 @@ namespace <namespace>;
                 }
             } elseif ($associationMapping['type'] & ClassMetadataInfo::TO_MANY) {
                 if (!$this->hasMethod($addGenerator->getMethodName($associationMapping['fieldName']), $metadata)) {
-                    $methods[] = $addGenerator->generate($associationMapping['fieldName'], '\\'.$associationMapping['targetEntity']);
+                    $methods[] = $addGenerator->generate($associationMapping['fieldName'], '\\'.$associationMapping['targetEntity'], $associationMapping['mappedBy']);
                 }
                 if (!$this->hasMethod($removeGenerator->getMethodName($associationMapping['fieldName']), $metadata)) {
                     $methods[] = $removeGenerator->generate($associationMapping['fieldName'], '\\'.$associationMapping['targetEntity']);
