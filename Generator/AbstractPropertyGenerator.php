@@ -20,7 +20,11 @@ abstract class AbstractPropertyGenerator
             case 'boolean':
                 return 'bool';
             case 'integer':
+            case 'bigint':
                 return 'int';
+            case 'decimal':
+                return 'float';
+            case 'date':
             case 'datetime':
                 return '\DateTime';
         }
