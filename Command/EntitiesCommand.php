@@ -2,8 +2,8 @@
 
 namespace A5sys\DoctrineTraitBundle\Command;
 
+use A5sys\DoctrineTraitBundle\Doctrine\DisconnectedMetadataFactory;
 use A5sys\DoctrineTraitBundle\Generator\EntityGenerator;
-use Doctrine\Bundle\DoctrineBundle\Mapping\DisconnectedMetadataFactory;
 use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputArgument;
