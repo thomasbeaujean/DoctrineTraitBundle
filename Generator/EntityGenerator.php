@@ -215,7 +215,7 @@ namespace <namespace>;
                     $methods[] = $removeGenerator->generate($associationMapping['fieldName'], '\\'.$associationMapping['targetEntity']);
                 }
                 if (!$this->hasMethod($getGenerator->getMethodName($associationMapping['fieldName']), $metadata)) {
-                    $methods[] = $getGenerator->generate($associationMapping['fieldName'], '\Doctrine\ORM\PersistentCollection', false);
+                    $methods[] = $getGenerator->generate($associationMapping['fieldName'], '\Doctrine\Common\Collections\Collection', false);
                 }
             }
         }
