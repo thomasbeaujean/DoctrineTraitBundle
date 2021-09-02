@@ -17,6 +17,8 @@ abstract class AbstractPropertyGenerator
     protected function convertType(string $type): string
     {
         switch ($type) {
+            case 'text':
+                return 'string';
             case 'boolean':
                 return 'bool';
             case 'integer':
