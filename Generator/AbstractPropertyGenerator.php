@@ -21,11 +21,15 @@ abstract class AbstractPropertyGenerator
                 return 'string';
             case 'boolean':
                 return 'bool';
+            case 'smallint':
             case 'integer':
             case 'bigint':
                 return 'int';
             case 'decimal':
                 return 'float';
+            case 'json':
+            case 'simple_array':
+                return 'array';
             case 'date':
             case 'datetime':
                 return '\DateTime';
