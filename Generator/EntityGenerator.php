@@ -45,7 +45,7 @@ namespace <namespace>;
         ];
 
         $replacements = [
-            $metadata->namespace.'\\Traits',
+            str_replace('App\\Entity', 'App\\Entity\\Traits', $metadata->namespace),
             $this->generateEntityClassName($metadata),
             $this->generateEntityBody($metadata),
         ];
@@ -172,7 +172,13 @@ namespace <namespace>;
                 continue;
             }
 
+            $refClass = new \ReflectionClass($metadata->name);
+            if (!$refClass->hasProperty($fieldMapping['fieldName'])) {
+                continue;
+            }
+
             $reflection = new \ReflectionProperty($metadata->name, $fieldMapping['fieldName']);
+
             $isNullableField = false;
             if ($reflection->getType()) {
                 $isNullableField = $reflection->getType()->allowsNull();
@@ -196,10 +202,17 @@ namespace <namespace>;
 
         foreach ($metadata->associationMappings as $associationMapping) {
             if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
+                $refClass = new \ReflectionClass($metadata->name);
+
+                if (!$refClass->hasProperty($associationMapping['fieldName'])) {
+                    continue;
+                }
+
                 $reflection = new \ReflectionProperty($metadata->name, $associationMapping['fieldName']);
+
                 $isNullableField = false;
                 if ($reflection->getType()) {
-                     $isNullableField = $reflection->getType()->allowsNull();
+                    $isNullableField = $reflection->getType()->allowsNull();
                 }
                 if (!$this->hasMethod($setGenerator->getMethodName($associationMapping['fieldName']), $metadata)) {
                     $methods[] = $setGenerator->generate($associationMapping['fieldName'], '\\'.$associationMapping['targetEntity'], $isNullableField);
@@ -236,14 +249,6 @@ namespace <namespace>;
         return implode("\n", $code);
     }
 
-        /**
-     * @param string $src
-     *
-     * @return void
-     *
-     * @todo this won't work if there is a namespace in brackets and a class outside of it.
-     * @psalm-suppress UndefinedConstant
-     */
     protected function parseTokensInEntityFile($src)
     {
         $tokens            = token_get_all($src);

@@ -4,11 +4,15 @@ namespace A5sys\DoctrineTraitBundle\Generator;
 
 class AddGenerator extends AbstractPropertyGenerator
 {
-    private static string $template =
+    private static string $beginTemplate =
     '
     public function <methodName>(<type> $value): void
-    {
-        $value->set<entityName>($this);
+    {';
+    private static string $setTemplate =
+    '
+        $value->set<entityName>($this);';
+    private static string $endTemplate =
+    '
         $this-><fieldName>[] = $value;
     }
 ';
@@ -20,7 +24,7 @@ class AddGenerator extends AbstractPropertyGenerator
         return $this->inflector->singularize($methodName);
     }
 
-    public function generate(string $fieldName, string $type, string $entityName): string
+    public function generate(string $fieldName, string $type, ?string $entityName): string
     {
         $methodName = $this->getMethodName($fieldName);
 
@@ -34,7 +38,21 @@ class AddGenerator extends AbstractPropertyGenerator
         $method = str_replace(
             array_keys($replacements),
             array_values($replacements),
-            static::$template
+            static::$beginTemplate
+        );
+
+        if ($entityName) {
+            $method .= str_replace(
+                array_keys($replacements),
+                array_values($replacements),
+                static::$setTemplate
+            );
+        }
+
+        $method .= str_replace(
+            array_keys($replacements),
+            array_values($replacements),
+            static::$endTemplate
         );
 
         return $method;

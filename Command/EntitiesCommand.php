@@ -2,7 +2,6 @@
 
 namespace A5sys\DoctrineTraitBundle\Command;
 
-use A5sys\DoctrineTraitBundle\Doctrine\DisconnectedMetadataFactory;
 use A5sys\DoctrineTraitBundle\Generator\EntityGenerator;
 use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,18 +30,11 @@ class EntitiesCommand extends DoctrineCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $manager = new DisconnectedMetadataFactory($this->getDoctrine());
-
-        $name = strtr($input->getArgument('name'), '/', '\\');
-        if (false !== $pos = strpos($name, ':')) {
-            $name = $this->getDoctrine()->getAliasNamespace(substr($name, 0, $pos)).'\\'.substr($name, $pos + 1);
-        }
-        $output->writeln(sprintf('Generating entities for namespace "<info>%s</info>"', $name));
-        $metadata = $manager->getNamespaceMetadata($name, $input->getOption('path'));
+        $metadata = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
 
         $generator = new EntityGenerator();
 
-        foreach ($metadata->getMetadata() as $m) {
+        foreach ($metadata as $m) {
             $output->writeln(sprintf('  > generating <comment>%s</comment>', $m->name));
             $generator->generate(array($m), $input->getOption('path'));
         }
