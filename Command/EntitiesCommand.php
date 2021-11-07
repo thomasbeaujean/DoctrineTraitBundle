@@ -24,8 +24,7 @@ class EntitiesCommand extends DoctrineCommand
     {
         $this
             ->setAliases(array('generate:doctrine:traits'))
-            ->addArgument('name', InputArgument::REQUIRED, 'A bundle name, a namespace, or a class name')
-            ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path where to generate entities when it cannot be guessed');
+            ->addArgument('name', InputArgument::REQUIRED, 'A bundle name, a namespace, or a class name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -33,10 +32,11 @@ class EntitiesCommand extends DoctrineCommand
         $metadata = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
 
         $generator = new EntityGenerator();
+        $path = 'src';
 
         foreach ($metadata as $m) {
             $output->writeln(sprintf('  > generating <comment>%s</comment>', $m->name));
-            $generator->generate(array($m), $input->getOption('path'));
+            $generator->generate(array($m), $path);
         }
 
         return Command::SUCCESS;

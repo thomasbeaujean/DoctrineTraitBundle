@@ -16,18 +16,28 @@ All basics getters/setters are in the trait.
 
 # Composer
 
+Add the repository to `composer.json`
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:thomasbeaujean/DoctrineTraitBundle.git"
+        }
+    ]
+
 Use composer to get the bundle
 
     composer require --dev "a5sys/doctrine-trait-bundle"
 
 # Activate the bundle
 
-In the AppKernel, activate the bundle for the dev environment
+Add the bundle to `config/bundles.php`
 
-        if (in_array($this->getEnvironment(), array('dev'))) {
-            ...
-            $bundles[] = new A5sys\DoctrineTraitBundle\DoctrineTraitBundle();
-        }
+    return [
+        ...
+        A5sys\DoctrineTraitBundle\DoctrineTraitBundle::class => ['dev' => true],
+        ...
+    ];
 
 # Usage
 
@@ -35,13 +45,10 @@ In the AppKernel, activate the bundle for the dev environment
 
 Run the command
 
-        php app/console generate:doctrine:traits AppBundle\\Entity
+        php app/console generate:doctrine:traits App
 
-Or this one if you want to act on a single entity
 
-        php app/console generate:doctrine:traits "AppBundle:MyEntity"
-
-Those commands will generate the trait(s) in the /src/AppBundle/Entity/Traits directory
+Those commands will generate the trait(s) in the /src/Entity/Traits directory
 
 ## Use custom method
 

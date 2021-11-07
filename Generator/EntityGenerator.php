@@ -29,7 +29,7 @@ namespace <namespace>;
 }
 ';
 
-    public function generate(array $metadatas, $outputDirectory): void
+    public function generate(array $metadatas, string $outputDirectory): void
     {
         foreach ($metadatas as $metadata) {
             $this->writeEntityClass($metadata, $outputDirectory);
@@ -60,7 +60,7 @@ namespace <namespace>;
      *
      * @throws \RuntimeException
      */
-    public function writeEntityClass(ClassMetadataInfo $metadata, $outputDirectory): void
+    public function writeEntityClass(ClassMetadataInfo $metadata, string $outputDirectory): void
     {
         $path = $outputDirectory.'/'.str_replace('\\', DIRECTORY_SEPARATOR, $metadata->name).$this->extension;
         $this->isNew = !file_exists($path) || (file_exists($path) && $this->regenerateEntityIfExists);
@@ -87,6 +87,10 @@ namespace <namespace>;
         $content = $this->generateEntityClass($metadata);
         $content = $this->removeTrailingSpacesAndTab($content);
         $cleanedContent = $this->removeUnusefulBlankLineBetweenEndBraces($content);
+
+        if (!file_exists($traitPath)) {
+            touch($traitPath);
+        }
 
         file_put_contents($traitPath, $cleanedContent);
 
