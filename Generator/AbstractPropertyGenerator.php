@@ -35,6 +35,8 @@ abstract class AbstractPropertyGenerator
                 return '\DateTime';
             case 'ulid':
                 return '\Symfony\Component\Uid\Ulid';
+            case 'uuid':
+                return '\Symfony\Component\Uid\Uuid';
         }
 
         return $type;
