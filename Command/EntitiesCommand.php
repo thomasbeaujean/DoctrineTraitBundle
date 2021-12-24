@@ -35,8 +35,10 @@ class EntitiesCommand extends DoctrineCommand
         $path = 'src';
 
         foreach ($metadata as $m) {
-            $output->writeln(sprintf('  > generating <comment>%s</comment>', $m->name));
-            $generator->generate(array($m), $path);
+            if (substr($m->name, 0, 4) === 'App\\') {
+                $output->writeln(sprintf('  > generating <comment>%s</comment>', $m->name));
+                $generator->generate(array($m), $path);
+            }
         }
 
         return Command::SUCCESS;
