@@ -188,11 +188,17 @@ namespace <namespace>;
                 $isNullableField = $reflection->getType()->allowsNull();
             }
 
+            $type = $fieldMapping['type'];
+
+            if (key_exists('enumType', $fieldMapping)) {
+                $type = '\\'.$fieldMapping['enumType'];
+            }
+
             if (!$this->hasMethod($setGenerator->getMethodName($fieldMapping['fieldName']), $metadata)) {
-                $methods[] = $setGenerator->generate($fieldMapping['fieldName'], $fieldMapping['type'], $isNullableField);
+                $methods[] = $setGenerator->generate($fieldMapping['fieldName'], $type, $isNullableField);
             }
             if (!$this->hasMethod($getGenerator->getMethodName($fieldMapping['fieldName']), $metadata)) {
-                $methods[] = $getGenerator->generate($fieldMapping['fieldName'], $fieldMapping['type'], $isNullableField);
+                $methods[] = $getGenerator->generate($fieldMapping['fieldName'], $type, $isNullableField);
             }
         }
 
