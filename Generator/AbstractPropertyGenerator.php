@@ -30,6 +30,7 @@ abstract class AbstractPropertyGenerator
             case 'json':
             case 'simple_array':
                 return 'array';
+            case 'time':
             case 'date':
             case 'datetime':
                 return '\DateTime';
